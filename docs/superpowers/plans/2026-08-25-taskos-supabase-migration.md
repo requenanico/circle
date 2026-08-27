@@ -26,6 +26,7 @@
 ### Task 1: Test Harness and Supabase Runtime Clients
 
 **Files:**
+
 - Modify: `package.json`
 - Modify: `pnpm-lock.yaml`
 - Create: `vitest.config.ts`
@@ -38,25 +39,28 @@
 - Create: `.env.example`
 
 **Interfaces:**
+
 - Produces: `getPublicSupabaseEnv(): { url: string; publishableKey: string }`
 - Produces: browser/server `createClient()` helpers and `updateSession(request)`.
 
-- [ ] Write tests proving missing or malformed public Supabase variables throw a descriptive error.
-- [ ] Run `pnpm vitest run lib/supabase/env.test.ts` and verify failure before implementation.
-- [ ] Add pinned Supabase and Vitest dependencies and a `test` script.
-- [ ] Implement environment validation and browser/server SSR clients using cookie `getAll`/`setAll`.
-- [ ] Implement `proxy.ts` session refresh with `auth.getClaims()` and exclusions for assets, `/login`, and `/auth`.
-- [ ] Run the unit test, `pnpm exec tsc --noEmit`, and commit.
+- [x] Write tests proving missing or malformed public Supabase variables throw a descriptive error.
+- [x] Run `pnpm vitest run lib/supabase/env.test.ts` and verify failure before implementation.
+- [x] Add pinned Supabase and Vitest dependencies and a `test` script.
+- [x] Implement environment validation and browser/server SSR clients using cookie `getAll`/`setAll`.
+- [x] Implement `proxy.ts` session refresh with `auth.getClaims()` and exclusions for assets, `/login`, and `/auth`.
+- [x] Run the unit test, `pnpm exec tsc --noEmit`, and commit.
 
 ### Task 2: Canonical Supabase Schema and RLS
 
 **Files:**
+
 - Create: `supabase/config.toml`
 - Create: `supabase/migrations/20260825153108_circle_workspace_schema.sql`
 - Create: `supabase/tests/rls_isolation.sql`
 - Create: `lib/supabase/database.types.ts`
 
 **Interfaces:**
+
 - Produces public tables and relationships defined by the spec.
 - Produces `private.allowed_accounts` and `private.migration_runs`.
 - Produces `private.is_workspace_member(workspace_id uuid, user_id uuid) returns boolean` with revoked public execution and explicit policy grants only where required.
@@ -74,6 +78,7 @@
 ### Task 3: OAuth Login, Callback, Allowlist, and Provisioning
 
 **Files:**
+
 - Create: `app/login/page.tsx`
 - Create: `app/login/login-buttons.tsx`
 - Create: `app/auth/callback/route.ts`
@@ -86,6 +91,7 @@
 - Modify: `components/layout/sidebar/nav-account.tsx`
 
 **Interfaces:**
+
 - Produces: `safeNextPath(value: string | null): string`.
 - Produces: `requireWorkspace(slug?: string): Promise<AuthWorkspaceContext>`.
 - Consumes Supabase schema and SSR clients from Tasks 1-2.
@@ -101,12 +107,14 @@
 ### Task 4: TaskOS Extraction and Idempotent Import
 
 **Files:**
+
 - Create: `scripts/migrate-taskos-to-supabase.mjs`
 - Create: `scripts/lib/taskos-transform.mjs`
 - Create: `scripts/lib/taskos-transform.test.mjs`
 - Create: `scripts/README-taskos-migration.md`
 
 **Interfaces:**
+
 - Produces: `mapStatus(sourceStatus)`, `mapDomain(projectType)`, deterministic identifiers, and import report JSON.
 - Consumes `TASKOS_DATABASE_URL`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `TASKOS_WORK_ACCOUNT_EMAIL` from server-only environment.
 
@@ -123,6 +131,7 @@
 ### Task 5: Domain Types and Read Repositories
 
 **Files:**
+
 - Create: `lib/domain/issue.ts`
 - Create: `lib/domain/project.ts`
 - Create: `lib/domain/team.ts`
@@ -134,6 +143,7 @@
 - Create: `lib/adapters/adapters.test.ts`
 
 **Interfaces:**
+
 - Produces normalized domain records independent of React/icon objects.
 - Produces adapters to the current `Issue`, `Project`, and `Team` presentation shapes during incremental migration.
 
@@ -146,6 +156,7 @@
 ### Task 6: Live Projects and Issues in the Existing UI
 
 **Files:**
+
 - Modify: `app/[orgId]/layout.tsx`
 - Modify: `app/[orgId]/team/[teamId]/all/page.tsx`
 - Modify: `app/[orgId]/projects/page.tsx`
@@ -157,6 +168,7 @@
 - Modify: `mock-data/projects.ts`
 
 **Interfaces:**
+
 - Consumes repository results as page props.
 - Keeps Zustand for filters, display settings, optimistic overlays, and panels only.
 
@@ -170,6 +182,7 @@
 ### Task 7: Persistent Issue and Project Mutations
 
 **Files:**
+
 - Create: `app/api/workspaces/[workspaceId]/issues/route.ts`
 - Create: `app/api/workspaces/[workspaceId]/issues/[issueId]/route.ts`
 - Create: `app/api/workspaces/[workspaceId]/issues/reorder/route.ts`
@@ -181,6 +194,7 @@
 - Modify: `store/issues-store.ts`
 
 **Interfaces:**
+
 - Produces authenticated CRUD and reorder APIs returning domain records.
 - Uses Zod schemas that reject caller-controlled cross-workspace identifiers.
 
@@ -193,6 +207,7 @@
 ### Task 8: TaskOS-Specific Fields and Time Tracking
 
 **Files:**
+
 - Create: `lib/repositories/time-entries.ts`
 - Create: `app/api/workspaces/[workspaceId]/time-entries/route.ts`
 - Create: `app/api/workspaces/[workspaceId]/time-entries/[entryId]/route.ts`
@@ -204,6 +219,7 @@
 - Create: `components/common/issues/time-tracking.tsx`
 
 **Interfaces:**
+
 - Produces workspace-scoped time-entry CRUD.
 - Preserves separate Design and Job Board field sets.
 
@@ -217,12 +233,14 @@
 ### Task 9: Security, Cutover, and Verification
 
 **Files:**
+
 - Create: `scripts/verify-supabase-migration.mjs`
 - Create: `docs/runbooks/taskos-cutover-and-rollback.md`
 - Modify: `README.md`
 - Modify: `.env.example`
 
 **Interfaces:**
+
 - Produces a machine-readable pass/fail verification report and operator runbook.
 
 - [ ] Verify exact data counts, UUID preservation, domains, parent links, time totals, and zero imported rows in freelance.
